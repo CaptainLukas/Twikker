@@ -8,7 +8,8 @@ namespace Forsthuber.Data.Entities
     {
         public Message()
         {
-
+            this.LikeIDs = new List<int>();
+            this.CommentIDs = new List<int>();
         }
 
         public int MessageID
@@ -23,13 +24,13 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
-        public int LikeID
+        public List<int> LikeIDs
         {
             get;
             set;
         }
 
-        public int CommentID
+        public List<int> CommentIDs
         {
             get;
             set;
