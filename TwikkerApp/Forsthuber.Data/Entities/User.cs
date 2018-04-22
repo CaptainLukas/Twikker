@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Forsthuber.Data.Entities
 {
-    class User
+    public class User
     {
     }
 }

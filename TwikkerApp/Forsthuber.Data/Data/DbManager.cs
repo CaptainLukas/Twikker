@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Forsthuber.Data.Entities;
-
+using Microsoft.Extensions.Logging;
 
 namespace Forsthuber.Data.Data
 {
@@ -12,7 +12,7 @@ namespace Forsthuber.Data.Data
 
         public DbManager()
         {
-
+            this.log = new Logger<DbManager>(new LoggerFactory());
         }
     }
 }
