@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Forsthuber.Data.Data
 {
-    class DbInitializer
+    public class DbInitializer
     {
+        private readonly ILogger log;
     }
 }
