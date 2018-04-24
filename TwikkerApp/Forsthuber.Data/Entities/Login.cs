@@ -4,19 +4,12 @@ using System.Text;
 
 namespace Forsthuber.Data.Entities
 {
-    public class User
+    public class Login
     {
-        public User()
+        public Login()
         {
-            this.MessageIDs = new List<int>();
-            this.LikeIDs = new List<int>();
-            this.CommentIDs = new List<int>();
-        }
-
-        public int UserID
-        {
-            get;
-            set;
+            this.Nickname = "";
+            this.Password = "";
         }
 
         public int LoginID
@@ -25,19 +18,19 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
-        public List<int> MessageIDs
+        public int UserID
         {
             get;
             set;
         }
 
-        public List<int> CommentIDs
+        public string Nickname
         {
             get;
             set;
         }
 
-        public List<int> LikeIDs
+        public string Password
         {
             get;
             set;

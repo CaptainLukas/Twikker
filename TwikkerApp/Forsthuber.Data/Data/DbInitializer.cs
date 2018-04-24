@@ -12,15 +12,15 @@ namespace Forsthuber.Data.Data
 
         private DbManager manager;
 
-        public DbInitializer(UserContext userContext, MessageContext messageContext, CommentContext commentContext, LikeContext likeContext)
+        public DbInitializer(DbContext dbContext)
         {
-            manager = new DbManager(userContext, commentContext, messageContext, likeContext);
+            manager = new DbManager(dbContext);
             this.log = new Logger<DbManager>(new LoggerFactory());
         }
 
-        public void Seed(UserContext userContext, MessageContext messageContext, CommentContext commentContext, LikeContext likeContext)
+        public void Seed(DbContext dbContext)
         {
-            if (userContext.User.Any())
+            if (dbContext.User.Any())
             {
                 return;
             }

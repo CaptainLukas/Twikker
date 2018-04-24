@@ -8,22 +8,13 @@ namespace Forsthuber.Data.Data
 {
     public class DbManager
     {
-        public UserContext userContext;
-
-        public CommentContext commentContext;
-
-        public MessageContext messageContext;
-
-        public LikeContext likeContext;
+        public DbContext dbContext;
 
         private readonly ILogger log;
 
-        public DbManager(UserContext userContext, CommentContext commentContext, MessageContext messageContext, LikeContext likeContext)
+        public DbManager(DbContext dbContext)
         {
-            this.userContext = userContext;
-            this.commentContext = commentContext;
-            this.messageContext = messageContext;
-            this.likeContext = likeContext;
+            this.dbContext = dbContext;
 
             this.log = new Logger<DbManager>(new LoggerFactory());
         }
@@ -33,9 +24,9 @@ namespace Forsthuber.Data.Data
             if (string.IsNullOrWhiteSpace(userName))
                 userName = "";
 
-            User user = new User();
-            user.Username = userName;
-            user.Password = password;
+           Login login = new Login();
+           login.Nickname = userName;
+           login.Password = password;
         }
 
         public void AddMessage(string text, int userID)
