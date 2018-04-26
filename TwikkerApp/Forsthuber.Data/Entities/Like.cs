@@ -16,6 +16,7 @@ namespace Forsthuber.Data.Entities
             get;
             set;
         }
+        public Message Message { get; set; }
 
         public int MessageID
         {
@@ -28,5 +29,7 @@ namespace Forsthuber.Data.Entities
             get;
             set;
         }
+
+        public ApplicationUser User { get; set; }
     }
 }

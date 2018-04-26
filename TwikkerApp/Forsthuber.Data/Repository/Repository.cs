@@ -1,5 +1,7 @@
 ﻿using Forsthuber.Data.Data;
 using Forsthuber.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,29 +12,56 @@ namespace Forsthuber.Data.Repository
     public class Repository : IRepository
     {
         private DbContext dbContext;
-
-        private DbManager manager;
+        
+        private UserManager<ApplicationUser> userManager;
 
         private readonly ILogger log;
 
-        public Repository(DbContext dbContext, ILogger<Repository> log)
+        
+        public Repository(UserManager<ApplicationUser> userManager,DbContext dbContext, ILogger<Repository> log)
         {
+            this.userManager = userManager;
             this.dbContext = dbContext;
-            this.manager = new DbManager(dbContext);
             this.log = log;
         }
 
-        public void AddMessage(string text, int userID)
+        public void AddUser(string email, string userName, string password)
         {
-            try
+            var user = new ApplicationUser() { Email = email, UserName = userName };
+            var result = userManager.CreateAsync(user, password);
+
+            if (result.IsCompletedSuccessfully)
             {
-                this.manager.AddMessage(text, userID);
-                log.LogInformation("New message added.", text);
+                string newId = user.Id;
             }
-            catch(Exception e)
-            {
-                log.LogError("Adding message failed.", e);
-            }
+        }
+
+        public void AddMessage(string text, ApplicationUser user)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                text = "";
+
+            Message message = new Message();
+            message.Text = text;
+            message.User = user;
+        }
+
+        public void AddComment(string text, ApplicationUser user, Message message)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                text = "";
+
+            Comment comment = new Comment();
+            comment.User = user;
+            comment.Message = message;
+            comment.Text = text;
+        }
+
+        public void AddLike(ApplicationUser user, Message message)
+        {
+            Like like = new Like();
+            like.User = user;
+            like.Message = message;
         }
     }
 }

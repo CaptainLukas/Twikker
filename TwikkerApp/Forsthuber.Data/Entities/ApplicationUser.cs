@@ -1,36 +1,21 @@
-﻿using System;
+﻿using Forsthuber.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Forsthuber.Data.Entities
 {
-    public class Message
+    public class ApplicationUser : IdentityUser
     {
-        public Message()
+        public ApplicationUser()
         {
+            this.Messages = new List<Message>();
             this.Likes = new List<Like>();
             this.Comments = new List<Comment>();
         }
 
-        public int MessageID
-        {
-            get;
-            set;
-        }
-
-        public int UserID
-        {
-            get;
-            set;
-        }
-
-        public ApplicationUser User
-        {
-            get;
-            set;
-        }
-
-        public List<Like> Likes
+        public List<Message> Messages
         {
             get;
             set;
@@ -42,7 +27,7 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
-        public string Text
+        public List<Like> Likes
         {
             get;
             set;

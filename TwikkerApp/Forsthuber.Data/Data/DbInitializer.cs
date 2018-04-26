@@ -9,12 +9,9 @@ namespace Forsthuber.Data.Data
     public class DbInitializer
     {
         private readonly ILogger log;
-
-        private DbManager manager;
-
+        
         public DbInitializer(DbContext dbContext)
         {
-            manager = new DbManager(dbContext);
             this.log = new Logger<DbManager>(new LoggerFactory());
         }
 

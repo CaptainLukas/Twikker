@@ -23,11 +23,18 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
+        public Message Message
+        {
+            get;set;
+        }
+
         public int UserID
         {
             get;
             set;
         }
+
+        public ApplicationUser User { get; set; }
 
         public string Text
         {
