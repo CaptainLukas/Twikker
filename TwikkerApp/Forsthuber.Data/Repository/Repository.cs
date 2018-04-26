@@ -9,25 +9,16 @@ namespace Forsthuber.Data.Repository
 {
     public class Repository : IRepository
     {
-        private UserContext userContext;
-
-        private MessageContext messageContext;
-
-        private LikeContext likeContext;
-
-        private CommentContext commentContext;
+        private DbContext dbContext;
 
         private DbManager manager;
 
         private readonly ILogger log;
 
-        public Repository(UserContext userContext, MessageContext messageContext, LikeContext likeContext, CommentContext commentContext, ILogger<Repository> log)
+        public Repository(DbContext dbContext, ILogger<Repository> log)
         {
-            this.userContext = userContext;
-            this.messageContext = messageContext;
-            this.likeContext = likeContext;
-            this.commentContext = commentContext;
-            this.manager = new DbManager(userContext, commentContext,messageContext,likeContext);
+            this.dbContext = dbContext;
+            this.manager = new DbManager(dbContext);
             this.log = log;
         }
 
