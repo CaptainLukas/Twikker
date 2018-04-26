@@ -25,6 +25,7 @@ namespace Forsthuber.Data.Data
             {
                 return;
             }
+
             ApplicationUser app = new ApplicationUser();
             app.Email = "test@test.com";
             app.UserName = "Penisuser";

@@ -11,7 +11,7 @@ using System;
 namespace Forsthuber.Web.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20180426192134_Initial")]
+    [Migration("20180426194444_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,15 +79,13 @@ namespace Forsthuber.Web.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int>("UserID");
-
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserID");
 
                     b.HasKey("CommentID");
 
                     b.HasIndex("MessageID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Comment");
                 });
@@ -99,15 +97,13 @@ namespace Forsthuber.Web.Migrations
 
                     b.Property<int>("MessageID");
 
-                    b.Property<int>("UserID");
-
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserID");
 
                     b.HasKey("LikeID");
 
                     b.HasIndex("MessageID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Like");
                 });
@@ -119,13 +115,11 @@ namespace Forsthuber.Web.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int>("UserID");
-
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserID");
 
                     b.HasKey("MessageID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Message");
                 });
@@ -246,7 +240,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Like", b =>
@@ -258,14 +252,14 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "User")
                         .WithMany("Likes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>
                 {
                     b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "User")
                         .WithMany("Messages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

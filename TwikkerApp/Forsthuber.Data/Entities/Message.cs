@@ -18,7 +18,7 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
-        public int UserID
+        public string UserID
         {
             get;
             set;

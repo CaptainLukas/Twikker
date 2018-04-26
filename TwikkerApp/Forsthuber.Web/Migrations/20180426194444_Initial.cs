@@ -160,15 +160,14 @@ namespace Forsthuber.Web.Migrations
                     MessageID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Message", x => x.MessageID);
                     table.ForeignKey(
-                        name: "FK_Message_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Message_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -182,8 +181,7 @@ namespace Forsthuber.Web.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     MessageID = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,8 +193,8 @@ namespace Forsthuber.Web.Migrations
                         principalColumn: "MessageID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comment_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -209,8 +207,7 @@ namespace Forsthuber.Web.Migrations
                     LikeID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     MessageID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -222,8 +219,8 @@ namespace Forsthuber.Web.Migrations
                         principalColumn: "MessageID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Like_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Like_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -272,9 +269,9 @@ namespace Forsthuber.Web.Migrations
                 column: "MessageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserId",
+                name: "IX_Comment_UserID",
                 table: "Comment",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Like_MessageID",
@@ -282,14 +279,14 @@ namespace Forsthuber.Web.Migrations
                 column: "MessageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Like_UserId",
+                name: "IX_Like_UserID",
                 table: "Like",
-                column: "UserId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_UserId",
+                name: "IX_Message_UserID",
                 table: "Message",
-                column: "UserId");
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
