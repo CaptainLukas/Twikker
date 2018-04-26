@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Forsthuber.Web.Data;
 using Forsthuber.Web.Models;
 using Forsthuber.Web.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -30,10 +29,11 @@ namespace Forsthuber.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Souce=sqlite.db", x => x.MigrationsAssembly("Forsthuber.Web")));
+            services.AddScoped<IDbContext>(provider => provider.GetService<DataBaseContext>());
+            services.AddDbContext<DataBaseContext>(options => options.UseSqlite("Data Source=sqlite.db", x => x.MigrationsAssembly("Forsthuber.Web")));
 
             services.AddIdentity<Models.ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<DataBaseContext>()
                 .AddDefaultTokenProviders();
 
             // Add application services.
@@ -45,7 +45,7 @@ namespace Forsthuber.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbContext dbContext)
         {
-            app.UseIdentity();
+            app.UseAuthentication();
             dbContext.Migrate();
 
             var cultures = new[] { new CultureInfo("en"), new CultureInfo("de") };

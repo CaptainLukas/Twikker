@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Forsthuber.Web.Data.Migrations
+namespace Forsthuber.Web.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,20 +20,6 @@ namespace Forsthuber.Web.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +52,7 @@ namespace Forsthuber.Web.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     RoleId = table.Column<string>(nullable: false)
@@ -90,7 +73,7 @@ namespace Forsthuber.Web.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
@@ -150,15 +133,112 @@ namespace Forsthuber.Web.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName");
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    MessageID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Text = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.MessageID);
+                    table.ForeignKey(
+                        name: "FK_Message_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    CommentID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MessageID = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.CommentID);
+                    table.ForeignKey(
+                        name: "FK_Comment_Message_MessageID",
+                        column: x => x.MessageID,
+                        principalTable: "Message",
+                        principalColumn: "MessageID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comment_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Like",
+                columns: table => new
+                {
+                    LikeID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MessageID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Like", x => x.LikeID);
+                    table.ForeignKey(
+                        name: "FK_Like_Message_MessageID",
+                        column: x => x.MessageID,
+                        principalTable: "Message",
+                        principalColumn: "MessageID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Like_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -176,11 +256,6 @@ namespace Forsthuber.Web.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -190,6 +265,31 @@ namespace Forsthuber.Web.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_MessageID",
+                table: "Comment",
+                column: "MessageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_UserId",
+                table: "Comment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Like_MessageID",
+                table: "Like",
+                column: "MessageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Like_UserId",
+                table: "Like",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Message_UserId",
+                table: "Message",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,7 +310,16 @@ namespace Forsthuber.Web.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "Like");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Message");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -7,15 +7,14 @@ using System.Text;
 
 namespace Forsthuber.Data.Data
 {
-    public class DbContext : IdentityDbContext<ApplicationUser>, IDbContext
+    public class DataBaseContext : IdentityDbContext<ApplicationUser>, IDbContext
     {
-        public DbSet<User> User { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
         public DbSet<Message> Message { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Like> Like { get; set; }
-        public DbSet<Login> Login { get; set; }
 
-        public DbContext(DbContextOptions<DbContext> options) : base(options) { }
+        public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -7,18 +7,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Forsthuber.Data.Repository
+namespace Forsthuber.Data.Repositories
 {
     public class Repository : IRepository
     {
-        private DbContext dbContext;
+        private DataBaseContext dbContext;
         
         private UserManager<ApplicationUser> userManager;
 
         private readonly ILogger log;
 
         
-        public Repository(UserManager<ApplicationUser> userManager,DbContext dbContext, ILogger<Repository> log)
+        public Repository(UserManager<ApplicationUser> userManager,DataBaseContext dbContext, ILogger<Repository> log)
         {
             this.userManager = userManager;
             this.dbContext = dbContext;

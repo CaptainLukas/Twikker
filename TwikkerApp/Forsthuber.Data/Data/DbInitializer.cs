@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Forsthuber.Data.Entities;
+using Forsthuber.Data.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,42 +11,51 @@ namespace Forsthuber.Data.Data
     public class DbInitializer
     {
         private readonly ILogger log;
+        private Repository repository;
         
-        public DbInitializer(DbContext dbContext)
+        public DbInitializer(DataBaseContext dbContext, Repository repository)
         {
-            this.log = new Logger<DbManager>(new LoggerFactory());
+            this.repository = repository;
+            this.log = new Logger<DbInitializer>(new LoggerFactory());
         }
 
-        public void Seed(DbContext dbContext)
+        public void Seed(DataBaseContext dbContext)
         {
             if (dbContext.User.Any())
             {
                 return;
             }
+            ApplicationUser app = new ApplicationUser();
+            app.Email = "test@test.com";
+            app.UserName = "Penisuser";
 
-            manager.AddUser("Lukas", "123");
-            manager.AddUser("Test", "Test");
-            manager.AddUser("Hund", "Wuff");
+            repository.AddUser("Lukas", "123", "Penis");
+            repository.AddUser("Test", "Test", "Penis");
+            repository.AddUser("test@test.com", "Penisuser", "Penis");
 
-            manager.AddMessage("Wuff Wuff", 3);
-            manager.AddMessage("Test Test", 1);
-            manager.AddMessage("12456", 1);
-            manager.AddMessage("test test", 2);
+            repository.AddMessage("Wuff Wuff", new ApplicationUser());
+            repository.AddMessage("Test Test", app);
+            repository.AddMessage("12456", app);
 
-            manager.AddComment("Wuff Wuff Wuff", 3, 1);
-            manager.AddComment("Hallo test", 2, 3);
-            manager.AddComment("Hallo", 1, 3);
+            app = new ApplicationUser();
+            app.UserName = "User2";
+            app.Email = "email@email.at";
+            repository.AddMessage("test test", app);
 
-            manager.AddLike(1, 1);
-            manager.AddLike(1, 2);
-            manager.AddLike(1, 3);
-            manager.AddLike(1, 4);
+            //repository.AddComment("Penisuser", app, 1);
+            //repository.AddComment("Hallo test", 2, 3);
+            //repository.AddComment("Hallo", 1, 3);
 
-            manager.AddLike(2, 3);
-            manager.AddLike(2, 4);
+            //repository.AddLike(1, 1);
+            //repository.AddLike(1, 2);
+            //repository.AddLike(1, 3);
+            //repository.AddLike(1, 4);
+            
+            //repository.AddLike(2, 3);
+            //repository.AddLike(2, 4);
 
-            manager.AddLike(3, 1);
-            manager.AddLike(3, 3);
+            //repository.AddLike(3, 1);
+            //repository.AddLike(3, 3);
         }
     }
 }
