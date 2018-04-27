@@ -86,7 +86,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Like", b =>
@@ -104,7 +104,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Like");
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>
@@ -120,7 +120,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

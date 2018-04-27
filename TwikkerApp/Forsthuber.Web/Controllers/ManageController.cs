@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Forsthuber.Web.Models;
 using Forsthuber.Web.Models.ManageViewModels;
 using Forsthuber.Web.Services;
+using Forsthuber.Data.Entities;
 
 namespace Forsthuber.Web.Controllers
 {

@@ -154,7 +154,7 @@ namespace Forsthuber.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Message",
+                name: "Messages",
                 columns: table => new
                 {
                     MessageID = table.Column<int>(nullable: false)
@@ -164,9 +164,9 @@ namespace Forsthuber.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Message", x => x.MessageID);
+                    table.PrimaryKey("PK_Messages", x => x.MessageID);
                     table.ForeignKey(
-                        name: "FK_Message_AspNetUsers_UserID",
+                        name: "FK_Messages_AspNetUsers_UserID",
                         column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -174,7 +174,7 @@ namespace Forsthuber.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     CommentID = table.Column<int>(nullable: false)
@@ -185,15 +185,15 @@ namespace Forsthuber.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.CommentID);
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
                     table.ForeignKey(
-                        name: "FK_Comment_Message_MessageID",
+                        name: "FK_Comments_Messages_MessageID",
                         column: x => x.MessageID,
-                        principalTable: "Message",
+                        principalTable: "Messages",
                         principalColumn: "MessageID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserID",
+                        name: "FK_Comments_AspNetUsers_UserID",
                         column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -201,7 +201,7 @@ namespace Forsthuber.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Like",
+                name: "Likes",
                 columns: table => new
                 {
                     LikeID = table.Column<int>(nullable: false)
@@ -211,15 +211,15 @@ namespace Forsthuber.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Like", x => x.LikeID);
+                    table.PrimaryKey("PK_Likes", x => x.LikeID);
                     table.ForeignKey(
-                        name: "FK_Like_Message_MessageID",
+                        name: "FK_Likes_Messages_MessageID",
                         column: x => x.MessageID,
-                        principalTable: "Message",
+                        principalTable: "Messages",
                         principalColumn: "MessageID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Like_AspNetUsers_UserID",
+                        name: "FK_Likes_AspNetUsers_UserID",
                         column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -264,28 +264,28 @@ namespace Forsthuber.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_MessageID",
-                table: "Comment",
+                name: "IX_Comments_MessageID",
+                table: "Comments",
                 column: "MessageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserID",
-                table: "Comment",
+                name: "IX_Comments_UserID",
+                table: "Comments",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Like_MessageID",
-                table: "Like",
+                name: "IX_Likes_MessageID",
+                table: "Likes",
                 column: "MessageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Like_UserID",
-                table: "Like",
+                name: "IX_Likes_UserID",
+                table: "Likes",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_UserID",
-                table: "Message",
+                name: "IX_Messages_UserID",
+                table: "Messages",
                 column: "UserID");
         }
 
@@ -307,16 +307,16 @@ namespace Forsthuber.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Like");
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Message");
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

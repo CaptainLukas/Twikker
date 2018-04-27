@@ -9,10 +9,9 @@ namespace Forsthuber.Data.Data
 {
     public class DataBaseContext : IdentityDbContext<ApplicationUser>, IDbContext
     {
-        public DbSet<ApplicationUser> User { get; set; }
-        public DbSet<Message> Message { get; set; }
-        public DbSet<Comment> Comment { get; set; }
-        public DbSet<Like> Like { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
 
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 

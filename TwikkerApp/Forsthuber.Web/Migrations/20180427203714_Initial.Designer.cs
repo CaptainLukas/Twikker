@@ -11,7 +11,7 @@ using System;
 namespace Forsthuber.Web.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20180426194444_Initial")]
+    [Migration("20180427203714_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,7 +87,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Like", b =>
@@ -105,7 +105,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Like");
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>
@@ -121,7 +121,7 @@ namespace Forsthuber.Web.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

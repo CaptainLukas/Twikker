@@ -21,7 +21,7 @@ namespace Forsthuber.Data.Data
 
         public void Seed(DataBaseContext dbContext)
         {
-            if (dbContext.User.Any())
+            if (dbContext.Users.Any())
             {
                 return;
             }
