@@ -1,20 +1,60 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization;
 @using Forsthuber.Data.Data;
 @using Microsoft.AspNetCore.Identity;
+@using Forsthuber.Data.Entities;
 @inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Twikker";
+    ApplicationUser user = (ApplicationUser)ViewData["User"];
 }
 
-<div>
-    <section>
-        <form method="post" action="/register">
-            <input type="submit" id="registerButton" name="registerButton" value="@Localizer["Register"]" />
-        </form>
-    </section>
+<!-- import style sheets here -->
+<link rel="stylesheet" href="~/css/index.css" />
+
+<!-- Prepares a grid that looks like: 
+    
+    -------------------------
+    |  |   random info   |  | 
+    |  |-----------------|  |
+    |  |      text-      |  |
+    |  |    messages     |  |
+    |  |                 |  |
+    |  |-----------------|  |    
+    |  |load more button |  |
+    -------------------------   
+    
+ -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            
+            <div class="headline">                
+
+                <p>User name: <strong data-bind="text: userName"></strong></p>
+                <p>User mail: <strong data-bind="text: userMail"></strong></p>
+
+            </div>            
+
+            <div class="content"> <p>Liker: <data-bind></p>
+                @if (this.User.Identity.IsAuthenticated)
+    {
+<p>@user.Messages[0].Text</p>
+<!-- Likebutton-->
+    }
+            </div>
+
+            <div class="bottomline">
+                <button class="btn-success" click="loadMore();">Load more</button>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
 </div>
 
-<form method="post" action="/login">
-    <input type="submit" id="loginButton" name="loginButton" value="@Localizer["Login"]" />
-</form>
+<!-- import scripts here -->
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/knockout/dist/knockout.js"></script>
+<script src="~/js/index.js" asp-append-version="true"></script>

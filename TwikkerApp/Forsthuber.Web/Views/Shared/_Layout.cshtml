@@ -8,7 +8,7 @@
 @inject IViewLocalizer  Localizer
 @inject IOptions<RequestLocalizationOptions> LocOptions
 
-@{ 
+@{
     var cultureItems = LocOptions.Value.SupportedUICultures.ToList();
     var currentCulture = Context.Features.Get<IRequestCultureFeature>().RequestCulture;
 }
@@ -46,8 +46,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -57,14 +55,14 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - Forsthuber.Web</p>
+            <p>&copy; 2018 - Twikker</p>
         </footer>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/js/main.js" asp-apend-version="true"></script>
-
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

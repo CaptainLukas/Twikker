@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Forsthuber.Data.Data;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Forsthuber.Data.Entities;
 
 namespace Forsthuber.Web
 {
@@ -31,10 +32,44 @@ namespace Forsthuber.Web
         {
             services.AddScoped<IDbContext>(provider => provider.GetService<DataBaseContext>());
             services.AddDbContext<DataBaseContext>(options => options.UseSqlite("Data Source=sqlite.db", x => x.MigrationsAssembly("Forsthuber.Web")));
+            
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<DataBaseContext>()
+                    .AddDefaultTokenProviders();
 
-            services.AddIdentity<Models.ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<DataBaseContext>()
-                .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false; 
+                
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                // If the LoginPath isn't set, ASP.NET Core defaults 
+                // the path to /Account/Login.
+                //options.LoginPath = "/Account/Login";
+                // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
+                // the path to /Account/AccessDenied.
+                //options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -45,7 +80,6 @@ namespace Forsthuber.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbContext dbContext)
         {
-            app.UseAuthentication();
             dbContext.Migrate();
 
             var cultures = new[] { new CultureInfo("en"), new CultureInfo("de") };
@@ -66,7 +100,6 @@ namespace Forsthuber.Web
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>

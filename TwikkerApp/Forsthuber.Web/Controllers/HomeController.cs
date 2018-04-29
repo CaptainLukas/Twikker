@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Forsthuber.Web.Models;
 using Microsoft.Extensions.Logging;
+using Forsthuber.Data.Entities;
 
 namespace Forsthuber.Web.Controllers
 {
@@ -15,20 +16,12 @@ namespace Forsthuber.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            ApplicationUser user = new ApplicationUser();
+            ViewData["User"] = user;
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
+            user.UserName = "Test";
+            user.Messages.Add(new Message());
+            user.Messages[0].Text = "Hallo";
             return View();
         }
 
