@@ -82,20 +82,10 @@ namespace Forsthuber.Web.Controllers
             if (user.UserName != model.Username)
             {
                 var setUsernameResult = _userManager.SetUserNameAsync(user, model.Username);
+                StatusMessage = "Your profile has been updated";
             }
 
-            //var email = user.Email;
-
-            //if (model.Email != email)
-            //{
-            //    var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-            //    if (!setEmailResult.Succeeded)
-            //    {
-            //        throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-            //    }
-            //}
-
-            StatusMessage = "Your profile has been updated";
+            
             return RedirectToAction(nameof(Index));
         }
 

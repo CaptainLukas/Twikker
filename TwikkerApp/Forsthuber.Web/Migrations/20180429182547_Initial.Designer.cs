@@ -11,7 +11,7 @@ using System;
 namespace Forsthuber.Web.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20180428002620_Initial")]
+    [Migration("20180429182547_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
