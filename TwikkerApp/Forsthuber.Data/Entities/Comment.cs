@@ -41,5 +41,11 @@ namespace Forsthuber.Data.Entities
             get;
             set;
         }
+
+        public DateTime TimeStamp
+        {
+            get;
+            set;
+        }
     }
 }

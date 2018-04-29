@@ -44,6 +44,7 @@ namespace Forsthuber.Data.Repositories
             Message message = new Message();
             message.Text = text;
             message.User = user;
+            message.TimeStamp = DateTime.Now;
         }
 
         public void AddComment(string text, ApplicationUser user, Message message)
@@ -55,6 +56,7 @@ namespace Forsthuber.Data.Repositories
             comment.User = user;
             comment.Message = message;
             comment.Text = text;
+            comment.TimeStamp = DateTime.Now;
         }
 
         public void AddLike(ApplicationUser user, Message message)

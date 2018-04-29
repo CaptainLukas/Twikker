@@ -30,6 +30,12 @@ namespace Forsthuber.Data.Entities
             set;
         }
 
+        public DateTime TimeStamp
+        {
+            get;
+            set;
+        }
+
         public List<Like> Likes
         {
             get;
