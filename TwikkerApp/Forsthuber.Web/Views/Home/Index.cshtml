@@ -67,9 +67,9 @@
 
                         for (int j = 0; j < comments.Count; j++)
                         {
-                            <p>@comments[i].User</p>
-                            <p>@comments[i].Text</p>
-                            if (comments[i].User.UserName == user.UserName)
+                            <p>@comments[j].User</p>
+                            <p>@comments[j].Text</p>
+                            if (comments[j].User.UserName == user.UserName)
                             {
                                 <button class="btn-default" onclick="delete()">@Localizer["Delete"]</button>
                             }
