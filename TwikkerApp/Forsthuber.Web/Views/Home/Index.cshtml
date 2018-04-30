@@ -7,6 +7,13 @@
 @{
     ViewData["Title"] = "Twikker";
     ApplicationUser user = (ApplicationUser)ViewData["User"];
+    List<ApplicationUser> users = (List<ApplicationUser>)ViewData["Users"];
+
+    List<Message> messages = (List<Message>)ViewData["Messages"];
+
+    messages = messages.OrderByDescending(x => x.TimeStamp).ToList();
+
+    List<Comment> comments = new List<Comment>();
 }
 
 <!-- import style sheets here -->
@@ -33,21 +40,48 @@
             
             <div class="headline">                
 
-                <p>User name: <strong data-bind="text: userName"></strong></p>
-                <p>User mail: <strong data-bind="text: userMail"></strong></p>
+                <p>@Localizer["Username"]: <strong data-bind="text: userName"></strong></p>
 
             </div>            
 
-            <div class="content"> <p>Liker: <data-bind></p>
+            <div class="content"> <p>Likes: <data-bind></p>
                 @if (this.User.Identity.IsAuthenticated)
                 {
-<p>@user.Messages[0].Text</p>
-<!-- Likebutton-->
-               }
-            </div>
+                    <textarea maxlength="300" name="newMessageText" id="newMessageText"></textarea>
+                    <button class="btn-success" onclick="newMessage('newMessageText')">@Localizer["Post"]</button>
 
+                    for (int i = 0; i < messages.Count; i++)
+                    {
+                        <p>@messages[i].User</p>
+                        <p>@messages[i].Text</p>
+                        <p id="@("likeCount" + i) ">@messages[i].Likes.Count</p>
+                        if(messages[i].User.UserName == user.UserName)
+                        {
+                            <button class="btn-default" onclick="">@Localizer["Delete"]</button>
+                        }
+
+                        <button class="like-button" onclick="like(@messages[i].MessageID, @i)">@Localizer["Like"]</button>
+                        <p>@Localizer["Comments"]</p>
+
+                        comments = messages[i].Comments.OrderByDescending(x => x.TimeStamp).ToList();
+
+                        for (int j = 0; j < comments.Count; j++)
+                        {
+                            <p>@comments[i].User</p>
+                            <p>@comments[i].Text</p>
+                            if (comments[i].User.UserName == user.UserName)
+                            {
+                                <button class="btn-default" onclick="delete()">@Localizer["Delete"]</button>
+                            }
+                        }
+
+                        <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)"></textarea>
+                        <button class="btn-default" onclick="newComment(@messages[i].MessageID, @i)">@Localizer["Comment"]</button>
+                    }
+                }
+</div>
             <div class="bottomline">
-                <button class="btn-success" click="loadMore();">Load more</button>
+                <button class="btn-success" onclick="loadMore()">@Localizer["Load More"]</button>
             </div>
         </div>
         <div class="col-sm-1"></div>

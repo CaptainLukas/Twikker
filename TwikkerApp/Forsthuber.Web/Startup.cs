@@ -15,6 +15,7 @@ using Forsthuber.Data.Data;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Forsthuber.Data.Entities;
+using Forsthuber.Data.Repositories;
 
 namespace Forsthuber.Web
 {
@@ -73,6 +74,7 @@ namespace Forsthuber.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IRepository, Repository>();
             services.AddLocalization();
             services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
         }

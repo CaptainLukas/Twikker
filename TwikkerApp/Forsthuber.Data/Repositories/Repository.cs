@@ -2,9 +2,11 @@
 using Forsthuber.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Forsthuber.Data.Repositories
@@ -45,6 +47,9 @@ namespace Forsthuber.Data.Repositories
             message.Text = text;
             message.User = user;
             message.TimeStamp = DateTime.Now;
+
+            dbContext.Messages.Add(message);
+            dbContext.SaveChanges();
         }
 
         public void AddComment(string text, ApplicationUser user, Message message)
@@ -57,13 +62,65 @@ namespace Forsthuber.Data.Repositories
             comment.Message = message;
             comment.Text = text;
             comment.TimeStamp = DateTime.Now;
+            dbContext.Comments.Add(comment);
+            dbContext.SaveChanges();
         }
 
-        public void AddLike(ApplicationUser user, Message message)
+        public void AddLike(string userName, int messageID)
         {
             Like like = new Like();
-            like.User = user;
-            like.Message = message;
+            ApplicationUser name = GetUserByUserName(userName);
+            like.User = name ?? throw new ArgumentNullException(nameof(name));
+
+            Message message = GetMessageById(messageID);
+            like.Message = message ?? throw new ArgumentNullException(nameof(message));
+
+            dbContext.Likes.Add(like);
+            dbContext.SaveChanges();
+        }
+
+        public ApplicationUser GetUserByUserName(string userName)
+        {
+            foreach(ApplicationUser user in dbContext.Users)
+            {
+                if (user.UserName == userName)
+                {
+                    return user;
+                }
+            }
+
+            return null;
+        }
+
+        public Message GetMessageById(int messageID)
+        {
+            foreach(Message message in dbContext.Messages)
+            {
+                if (message.MessageID == messageID)
+                {
+                    return message;
+                }
+            }
+            return null;
+        }
+
+        public List<Message> GetAllMessages()
+        {
+            try
+            {
+                return dbContext.Messages
+                    .Include(x => x.User)
+                        .ThenInclude(u => u.Messages)
+                    .Include(x => x.Comments)
+                        .ThenInclude(c => c.User)
+                    .Include(x => x.Likes)
+                        .ThenInclude(l=>l.User).ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
         }
     }
 }
