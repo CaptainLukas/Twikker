@@ -139,7 +139,7 @@ function like(id, i) {
 }
 
 function unlike() {
-
+    alert("noch nix aber vl unlike");
 }
 
 function newMessage(id) {

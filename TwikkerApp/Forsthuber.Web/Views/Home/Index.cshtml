@@ -66,13 +66,9 @@
                         {
                             <button class="btn-default" onclick="deleteMessage(@messages[i].MessageID)">@Localizer["Delete"]</button>
                         }
-                        @if (user.Messages.Contains(messages[i]))
+                        @if (user.Likes.Contains(messages[i]))
                         {
                             <button class="btn-success" onclick="like(@messages[i].MessageID, @i)">@Localizer["Like"]</button>
-                        }
-                        else
-                        {
-                            <button class="btn-danger" onclick="unlike()" >@Localizer["Liked"]</button>
                         }
 
                     }
