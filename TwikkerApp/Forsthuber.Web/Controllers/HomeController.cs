@@ -69,5 +69,19 @@ namespace Forsthuber.Web.Controllers
             repository.AddComment(model.Text, repository.GetUserByUserName(this.User.Identity.Name), repository.GetMessageById(model.MessageID));
             return Json("");
         }
+
+        [HttpPost()]
+        public IActionResult DeleteComment(DeleteCommentViewModel model)
+        {
+            repository.DeleteComment(model.CommentID);
+            return Json("");
+        }
+
+        [HttpPost()]
+        public IActionResult DeleteMessage(DeleteMessageViewModel model)
+        {
+            repository.DeleteMessage(model.MessageID);
+            return Json("");
+        }
     }
 }

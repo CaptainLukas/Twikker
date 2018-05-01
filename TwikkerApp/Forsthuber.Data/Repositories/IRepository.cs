@@ -20,5 +20,9 @@ namespace Forsthuber.Data.Repositories
         Message GetMessageById(int messageID);
 
         List<Message> GetAllMessages();
+
+        void DeleteMessage(int messageID);
+
+        void DeleteComment(int commentID);
     }
 }

@@ -19,76 +19,89 @@
 <!-- import style sheets here -->
 <link rel="stylesheet" href="~/css/index.css" />
 
-<!-- Prepares a grid that looks like: 
-    
+<!-- Prepares a grid that looks like:
+
     -------------------------
-    |  |   random info   |  | 
+    |  |   random info   |  |
     |  |-----------------|  |
     |  |      text-      |  |
     |  |    messages     |  |
     |  |                 |  |
-    |  |-----------------|  |    
+    |  |-----------------|  |
     |  |load more button |  |
-    -------------------------   
-    
+    -------------------------
+
  -->
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            
-            <div class="headline">                
 
+            <div class="headline">
                 <p>@Localizer["Username"]: <strong data-bind="text: userName"></strong></p>
 
-            </div>            
+            </div>
 
-            <div class="content"> <p>Likes: <data-bind></p>
+            <div class="content">
                 @if (this.User.Identity.IsAuthenticated)
                 {
+                    <p>@Localizer["New Message"]:</p>
                     <textarea maxlength="300" name="newMessageText" id="newMessageText"></textarea>
                     <button class="btn-success" onclick="newMessage('newMessageText')">@Localizer["Post"]</button>
+                }
+                <p>----------------------------------------------------</p>
+                @for (int i = 0; i < messages.Count; i++)
+                {
+                    <p>@Localizer["Username"]: @messages[i].User</p>
+                    <p>@Localizer["Text"]: @messages[i].Text</p>
 
-                    for (int i = 0; i < messages.Count; i++)
+                    <p id="@("likeCount" + i) ">@Localizer["Likes"]: @messages[i].Likes.Count</p>
+
+                    @if (this.User.Identity.IsAuthenticated)
                     {
-                        <p>@messages[i].User</p>
-                        <p>@messages[i].Text</p>
-                        <p id="@("likeCount" + i) ">@messages[i].Likes.Count</p>
-                        if(messages[i].User.UserName == user.UserName)
+                        @if (messages[i].User.UserName == user.UserName)
                         {
-                            <button class="btn-default" onclick="">@Localizer["Delete"]</button>
+                            <button class="btn-default" onclick="deleteMessage(@messages[i].MessageID)">@Localizer["Delete"]</button>
                         }
-
                         <button class="like-button" onclick="like(@messages[i].MessageID, @i)">@Localizer["Like"]</button>
-                        <p>@Localizer["Comments"]</p>
+                    }
+                    comments = messages[i].Comments.OrderBy(x => x.TimeStamp).ToList();
+                    <p>@Localizer["Comments"]: @comments.Count</p>
 
-                        comments = messages[i].Comments.OrderByDescending(x => x.TimeStamp).ToList();
 
-                        for (int j = 0; j < comments.Count; j++)
+
+                    @for (int j = 0; j < comments.Count; j++)
+                    {
+
+                        <p>@Localizer["Username"]: @comments[j].User</p>
+                        <p>@Localizer["Text"]: @comments[j].Text</p>
+                        @if (this.User.Identity.IsAuthenticated)
                         {
-                            <p>@comments[j].User</p>
-                            <p>@comments[j].Text</p>
                             if (comments[j].User.UserName == user.UserName)
                             {
-                                <button class="btn-default" onclick="delete()">@Localizer["Delete"]</button>
+                                <button class="btn-default" onclick="deleteComment(@messages[i].MessageID, @messages[i].Comments[j].CommentID)">@Localizer["Delete"]</button>
                             }
                         }
-
-                        <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)"></textarea>
-                        <button class="btn-default" onclick="newComment(@messages[i].MessageID, @i)">@Localizer["Comment"]</button>
+                        <p>-----</p>
                     }
-                }
-</div>
-            <div class="bottomline">
-                <button class="btn-success" onclick="loadMore()">@Localizer["Load More"]</button>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)"></textarea>
+                            <button class="btn-default" onclick="newComment(@messages[i].MessageID, @i)">@Localizer["Comment"]</button>
+                        }
+                        <p>----------------------------------------------------</p>
+                    }
+                </div>
+                <div class="bottomline">
+                    <button class="btn-success" onclick="loadMore()">@Localizer["Load More"]</button>
+                </div>
             </div>
+            <div class="col-sm-1"></div>
         </div>
-        <div class="col-sm-1"></div>
     </div>
-</div>
 
-<!-- import scripts here -->
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/knockout/dist/knockout.js"></script>
-<script src="~/js/index.js" asp-append-version="true"></script>
+    <!-- import scripts here -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/knockout/dist/knockout.js"></script>
+    <script src="~/js/index.js" asp-append-version="true"></script>

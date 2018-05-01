@@ -17,8 +17,51 @@ function AddCommentViewModel(messageID, text) {
     this.Text = text;
 }
 
+function DeleteCommentViewModel(messageID, commentID) {
+    this.MessageID = messageID;
+    this.commentID = commentID;
+}
+
+function DeleteMessageViewModel(messageID) {
+    this.MessageID = messageID;
+}
+
 // Activates knockout.js 
 ko.applyBindings(new UserViewModel("Luke Forstwalker"));
+
+function deleteMessage(messageID) {
+    var model = new DeleteMessageViewModel(messageID);
+    $.ajax({
+        type: "POST",
+        url: "Home/DeleteMessage",
+        data: model,
+        dataType: "json",
+        success: function (response) {
+
+            alert("success");
+        },
+        error: function (response) {
+            alert("error");
+        }
+    });
+}
+
+function deleteComment(messageID, commentID) {
+    var model = new DeleteCommentViewModel(messageID, commentID);
+    $.ajax({
+        type: "POST",
+        url: "Home/DeleteComment",
+        data: model,
+        dataType: "json",
+        success: function (response) {
+
+            alert("success");
+        },
+        error: function (response) {
+            alert("error");
+        }
+    });
+}
 
 // This method loads the next "n" messages via AJAX.
 function loadMore() {

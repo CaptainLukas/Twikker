@@ -68,6 +68,9 @@ namespace Forsthuber.Data.Repositories
 
         public void AddLike(string userName, int messageID)
         {
+            if (GetUserByUserName(userName) == null || GetMessageById(messageID) == null)
+                return;
+
             Like like = new Like();
             ApplicationUser name = GetUserByUserName(userName);
             like.User = name ?? throw new ArgumentNullException(nameof(name));
@@ -76,6 +79,24 @@ namespace Forsthuber.Data.Repositories
             like.Message = message ?? throw new ArgumentNullException(nameof(message));
 
             dbContext.Likes.Add(like);
+            dbContext.SaveChanges();
+        }
+
+        public void DeleteComment(int commentID)
+        {
+            if (GetCommentById(commentID) == null)
+                return;
+
+            dbContext.Comments.Remove(GetCommentById(commentID));
+            dbContext.SaveChanges();
+        }
+
+        public void DeleteMessage(int messageID)
+        {
+            if (GetMessageById(messageID) == null)
+                return;
+
+            dbContext.Messages.Remove(GetMessageById(messageID));
             dbContext.SaveChanges();
         }
 
@@ -101,6 +122,20 @@ namespace Forsthuber.Data.Repositories
                     return message;
                 }
             }
+
+            return null;
+        }
+
+        public Comment GetCommentById(int commentID)
+        {
+            foreach(Comment comment in dbContext.Comments)
+            {
+                if (comment.CommentID == commentID)
+                {
+                    return comment;
+                }
+            }
+
             return null;
         }
 
@@ -116,7 +151,7 @@ namespace Forsthuber.Data.Repositories
                     .Include(x => x.Likes)
                         .ThenInclude(l=>l.User).ToList();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
