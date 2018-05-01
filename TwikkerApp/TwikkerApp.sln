@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forsthuber.Web", "Forsthuber.Web\Forsthuber.Web.csproj", "{72338B83-FE9A-4D66-B936-E0B430AE67CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forsthuber.Data", "Forsthuber.Data\Forsthuber.Data.csproj", "{459F240E-3E61-4556-AFE5-C26EB0B39A24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forsthuber.Data", "Forsthuber.Data\Forsthuber.Data.csproj", "{459F240E-3E61-4556-AFE5-C26EB0B39A24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

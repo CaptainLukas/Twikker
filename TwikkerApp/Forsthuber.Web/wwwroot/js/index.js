@@ -173,6 +173,22 @@ function countCommentChar(val, i) {
     var p = document.getElementById("newCommentCount" + i);
     p.innerHTML = length;
 }
+
+function addMessage(text) {
+    var model = new AddMessageViewModel(text);
+    $.ajax({
+        type:"Post",
+        url: 'Home/AddMessage',
+        data: model,
+        dataType: "json",
+        success: function (partialView) {
+            alert("Hallo");
+            var d = document.getElementById("addNewMessages");
+            d.appendChild(partialView);
+        }
+    });
+}
+
 // Check whether the page has loaded and is ready.
 $(document).ready(function () {
 

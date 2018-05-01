@@ -69,7 +69,7 @@ namespace Forsthuber.Web.Controllers
             Comment comment = repository.GetCommentById(model.CommentID);
             return Json(comment.Likes.Count);
         }
-
+        
         [HttpPost()]
         public IActionResult AddMessage(AddMessageViewModel model)
         {
@@ -79,7 +79,10 @@ namespace Forsthuber.Web.Controllers
             }
 
             repository.AddMessage(model.Text, repository.GetUserByUserName(this.User.Identity.Name));
-            return Json("");
+
+            var messageViewModel = new AddMessageViewModel();
+            messageViewModel.Text = model.Text;
+            return PartialView("~/Views/Shared/AddMessageViewModel.cshtml", messageViewModel);
         }
 
         [HttpPost()]
