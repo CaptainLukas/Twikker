@@ -138,6 +138,10 @@ function like(id, i) {
     });
 }
 
+function unlike() {
+
+}
+
 function newMessage(id) {
 
     var tb = document.getElementById(id);

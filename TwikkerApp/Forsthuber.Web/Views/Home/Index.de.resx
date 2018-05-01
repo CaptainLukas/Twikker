@@ -129,6 +129,9 @@
   <data name="Like" xml:space="preserve">
     <value>Gefällt Mir</value>
   </data>
+  <data name="Liked" xml:space="preserve">
+    <value>Gefällt Dir</value>
+  </data>
   <data name="Likes" xml:space="preserve">
     <value>Gefällt Mir</value>
   </data>
