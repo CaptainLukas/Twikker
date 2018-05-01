@@ -47,7 +47,8 @@
                 @if (this.User.Identity.IsAuthenticated)
                 {
                     <p>@Localizer["New Message"]:</p>
-                    <textarea maxlength="300" name="newMessageText" id="newMessageText"></textarea>
+                    <textarea maxlength="300" name="newMessageText" id="newMessageText" onkeyup="countMessageChar(this, 'newMessageCount')"></textarea>
+                    <p>@Localizer["Message Length"]: <p id="newMessageCount">0</p></p>
                     <button class="btn-success" onclick="newMessage('newMessageText')">@Localizer["Post"]</button>
                 }
                 <p>----------------------------------------------------</p>
@@ -88,7 +89,8 @@
                     }
                     @if (this.User.Identity.IsAuthenticated)
                     {
-                        <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)"></textarea>
+                        <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)" onkeyup="countCommentChar(this, @i)"></textarea>
+                        <p>@Localizer["Message Length"]: <p id="@("newCommentCount" + i)">0</p></p>
                         <button class="btn-default" onclick="newComment(@messages[i].MessageID, @i)">@Localizer["Comment"]</button>
                     }
                     <p>----------------------------------------------------</p>

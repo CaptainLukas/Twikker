@@ -59,6 +59,11 @@ namespace Forsthuber.Web.Controllers
         [HttpPost()]
         public IActionResult AddMessage(AddMessageViewModel model)
         {
+            if (model.Text.Length > 300)
+            {
+                model.Text = model.Text.Substring(0, 300);
+            }
+
             repository.AddMessage(model.Text, repository.GetUserByUserName(this.User.Identity.Name));
             return Json("");
         }
@@ -66,6 +71,11 @@ namespace Forsthuber.Web.Controllers
         [HttpPost()]
         public IActionResult AddComment(AddCommentViewModel model)
         {
+            if (model.Text.Length > 300)
+            {
+                model.Text = model.Text.Substring(0, 300);
+            }
+
             repository.AddComment(model.Text, repository.GetUserByUserName(this.User.Identity.Name), repository.GetMessageById(model.MessageID));
             return Json("");
         }

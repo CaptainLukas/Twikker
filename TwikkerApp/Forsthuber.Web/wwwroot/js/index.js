@@ -137,6 +137,18 @@ function newMessage(id) {
         }
     });
 }
+
+function countMessageChar(val, pID) {
+    var length = val.value.length;
+    var p = document.getElementById(pID);
+    p.innerHTML = length;
+}
+
+function countCommentChar(val, i) {
+    var length = val.value.length;
+    var p = document.getElementById("newCommentCount" + i);
+    p.innerHTML = length;
+}
 // Check whether the page has loaded and is ready.
 $(document).ready(function () {
 
