@@ -30,20 +30,22 @@ function DeleteMessageViewModel(messageID) {
 ko.applyBindings(new UserViewModel("Luke Forstwalker"));
 
 function deleteMessage(messageID) {
-    var model = new DeleteMessageViewModel(messageID);
-    $.ajax({
-        type: "POST",
-        url: "Home/DeleteMessage",
-        data: model,
-        dataType: "json",
-        success: function (response) {
+    if (confirm('Are you sure you want to delete this?')) {
+        var model = new DeleteMessageViewModel(messageID);
+        $.ajax({
+            type: "POST",
+            url: "Home/DeleteMessage",
+            data: model,
+            dataType: "json",
+            success: function (response) {
 
-            alert("success");
-        },
-        error: function (response) {
-            alert("error");
-        }
-    });
+                alert("success");
+            },
+            error: function (response) {
+                alert("error");
+            }
+        });
+    }
 }
 
 function deleteComment(messageID, commentID) {
