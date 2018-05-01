@@ -9,6 +9,7 @@ namespace Forsthuber.Data.Entities
         public Comment()
         {
             this.Text = "";
+            this.Likes = new List<LikeComment>();
         }
 
         public int CommentID
@@ -25,7 +26,7 @@ namespace Forsthuber.Data.Entities
 
         public Message Message
         {
-            get;set;
+            get; set;
         }
 
         public string UserID
@@ -35,6 +36,8 @@ namespace Forsthuber.Data.Entities
         }
 
         public ApplicationUser User { get; set; }
+
+        public List<LikeComment> Likes {get;set;}
 
         public string Text
         {

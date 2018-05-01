@@ -5,7 +5,10 @@ function UserViewModel(userName) {
 
 function AddLikeViewModel(messageID) {
     this.MessageID = messageID;
+}
 
+function AddLikeCommentViewModel(commentID) {
+    this.CommentID = commentID;
 }
 
 function AddMessageViewModel(text) {
@@ -91,6 +94,22 @@ function newComment(messageID, i) {
     $.ajax({
         type: "Post",
         url: "Home/AddComment",
+        data: model,
+        dataType: "json",
+        success: function (response) {
+            text.value = '';
+        },
+        error: function (response) {
+            alert("error");
+        }
+    });
+}
+
+function likeComment(commentID, i, j) {
+    var model = new AddLikeCommentViewModel(commentID);
+    $.ajax({
+        type: "Post",
+        url: "Home/AddLikeComment",
         data: model,
         dataType: "json",
         success: function (response) {

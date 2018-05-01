@@ -14,13 +14,13 @@ namespace Forsthuber.Data.Repositories
     public class Repository : IRepository
     {
         private DataBaseContext dbContext;
-        
+
         private UserManager<ApplicationUser> userManager;
 
         private readonly ILogger log;
 
-        
-        public Repository(UserManager<ApplicationUser> userManager,DataBaseContext dbContext, ILogger<Repository> log)
+
+        public Repository(UserManager<ApplicationUser> userManager, DataBaseContext dbContext, ILogger<Repository> log)
         {
             this.userManager = userManager;
             this.dbContext = dbContext;
@@ -72,13 +72,23 @@ namespace Forsthuber.Data.Repositories
                 return;
 
             Like like = new Like();
-            ApplicationUser name = GetUserByUserName(userName);
-            like.User = name ?? throw new ArgumentNullException(nameof(name));
-
-            Message message = GetMessageById(messageID);
-            like.Message = message ?? throw new ArgumentNullException(nameof(message));
+            like.User = GetUserByUserName(userName);
+            like.Message = GetMessageById(messageID);
 
             dbContext.Likes.Add(like);
+            dbContext.SaveChanges();
+        }
+
+        public void AddLikeComment(string userName, int commentID)
+        {
+            if (GetUserByUserName(userName) == null || GetCommentById(commentID) == null)
+                return;
+
+            LikeComment likeComment = new LikeComment();
+            likeComment.ApplicationUser = GetUserByUserName(userName);
+            likeComment.Comment = GetCommentById(commentID);
+
+            dbContext.LikeComments.Add(likeComment);
             dbContext.SaveChanges();
         }
 
@@ -102,7 +112,7 @@ namespace Forsthuber.Data.Repositories
 
         public ApplicationUser GetUserByUserName(string userName)
         {
-            foreach(ApplicationUser user in dbContext.Users)
+            foreach (ApplicationUser user in dbContext.Users)
             {
                 if (user.UserName == userName)
                 {
@@ -115,7 +125,7 @@ namespace Forsthuber.Data.Repositories
 
         public Message GetMessageById(int messageID)
         {
-            foreach(Message message in dbContext.Messages)
+            foreach (Message message in dbContext.Messages)
             {
                 if (message.MessageID == messageID)
                 {
@@ -128,7 +138,7 @@ namespace Forsthuber.Data.Repositories
 
         public Comment GetCommentById(int commentID)
         {
-            foreach(Comment comment in dbContext.Comments)
+            foreach (Comment comment in dbContext.Comments)
             {
                 if (comment.CommentID == commentID)
                 {
@@ -148,14 +158,17 @@ namespace Forsthuber.Data.Repositories
                         .ThenInclude(u => u.Messages)
                     .Include(x => x.Comments)
                         .ThenInclude(c => c.User)
+                    .Include(x=>x.Comments)
+                        .ThenInclude(c => c.Likes)
                     .Include(x => x.Likes)
-                        .ThenInclude(l=>l.User).ToList();
+                        .ThenInclude(l => l.User)
+                    .ToList();
             }
             catch (Exception)
             {
                 return null;
             }
-            
+
         }
     }
 }

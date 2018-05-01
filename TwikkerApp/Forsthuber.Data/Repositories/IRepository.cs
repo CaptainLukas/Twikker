@@ -24,5 +24,8 @@ namespace Forsthuber.Data.Repositories
         void DeleteMessage(int messageID);
 
         void DeleteComment(int commentID);
+
+        void AddLikeComment(string userName, int commentID);
+        Comment GetCommentById(int commentID);
     }
 }

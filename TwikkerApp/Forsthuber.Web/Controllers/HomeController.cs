@@ -18,6 +18,7 @@ namespace Forsthuber.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRepository repository;
+        private ApplicationUser currentUser;
         readonly ILogger<HomeController> _log;
 
         public HomeController(UserManager<ApplicationUser> userManager, IRepository repository)
@@ -28,13 +29,18 @@ namespace Forsthuber.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            ViewData["User"] = user;
+            GetCurrentUser().Wait();
+            ViewData["User"] = currentUser;
             var users = _userManager.Users.ToList();
             ViewData["Users"] = users;
             ViewData["Messages"] = repository.GetAllMessages();
 
             return View();
+        }
+
+        private async Task GetCurrentUser()
+        {
+            currentUser = await _userManager.GetUserAsync(User); 
         }
 
         public IActionResult Error()
@@ -54,6 +60,14 @@ namespace Forsthuber.Web.Controllers
             repository.AddLike(this.User.Identity.Name, model.MessageID);
             Message message = repository.GetMessageById(model.MessageID);
             return Json(message.Likes.Count);
+        }
+
+        [HttpPost()]
+        public IActionResult AddLikeComment(AddLikeCommentViewModel model)
+        {
+            repository.AddLikeComment(this.User.Identity.Name, model.CommentID);
+            Comment comment = repository.GetCommentById(model.CommentID);
+            return Json(comment.Likes.Count);
         }
 
         [HttpPost()]

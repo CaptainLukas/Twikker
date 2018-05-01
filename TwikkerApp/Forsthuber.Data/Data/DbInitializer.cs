@@ -30,9 +30,9 @@ namespace Forsthuber.Data.Data
             app.Email = "test@test.com";
             app.UserName = "Penisuser";
 
-            repository.AddUser("Lukas", "123", "Penis");
-            repository.AddUser("Test", "Test", "Penis");
-            repository.AddUser("test@test.com", "Penisuser", "Penis");
+            repository.AddUser("Lukas@lukas.at", "123", "Penis123");
+            repository.AddUser("Test@test.at", "Test", "Penis123");
+            repository.AddUser("test@test.com", "Penisuser", "Penis123");
 
             repository.AddMessage("Wuff Wuff", new ApplicationUser());
             repository.AddMessage("Test Test", app);

@@ -17,6 +17,7 @@ namespace Forsthuber.Data.Data
 
         DbSet<Comment> Comments { get; set; }
 
+        DbSet<LikeComment> LikeComments { get; set; }
         void Migrate();
     }
 }

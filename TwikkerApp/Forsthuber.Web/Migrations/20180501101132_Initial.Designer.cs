@@ -11,7 +11,7 @@ using System;
 namespace Forsthuber.Web.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20180429182547_Initial")]
+    [Migration("20180501101132_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,8 @@ namespace Forsthuber.Web.Migrations
 
                     b.Property<string>("Text");
 
+                    b.Property<DateTime>("TimeStamp");
+
                     b.Property<string>("UserID");
 
                     b.HasKey("CommentID");
@@ -108,12 +110,34 @@ namespace Forsthuber.Web.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("Forsthuber.Data.Entities.LikeComment", b =>
+                {
+                    b.Property<int>("LikeCommentID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("CommentID");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("LikeCommentID");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CommentID");
+
+                    b.ToTable("LikeComments");
+                });
+
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>
                 {
                     b.Property<int>("MessageID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Text");
+
+                    b.Property<DateTime>("TimeStamp");
 
                     b.Property<string>("UserID");
 
@@ -253,6 +277,18 @@ namespace Forsthuber.Web.Migrations
                     b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Forsthuber.Data.Entities.LikeComment", b =>
+                {
+                    b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("LikeComments")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Forsthuber.Data.Entities.Comment", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>

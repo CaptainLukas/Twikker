@@ -109,6 +109,26 @@ namespace Forsthuber.Web.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("Forsthuber.Data.Entities.LikeComment", b =>
+                {
+                    b.Property<int>("LikeCommentID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int>("CommentID");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("LikeCommentID");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CommentID");
+
+                    b.ToTable("LikeComments");
+                });
+
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>
                 {
                     b.Property<int>("MessageID")
@@ -256,6 +276,18 @@ namespace Forsthuber.Web.Migrations
                     b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Forsthuber.Data.Entities.LikeComment", b =>
+                {
+                    b.HasOne("Forsthuber.Data.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("LikeComments")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Forsthuber.Data.Entities.Comment", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Forsthuber.Data.Entities.Message", b =>

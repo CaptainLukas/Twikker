@@ -127,7 +127,10 @@
     <value>Löschen</value>
   </data>
   <data name="Like" xml:space="preserve">
-    <value>Gefällt mir</value>
+    <value>Gefällt Mir</value>
+  </data>
+  <data name="Likes" xml:space="preserve">
+    <value>Gefällt Mir</value>
   </data>
   <data name="Load More" xml:space="preserve">
     <value>Weitere Laden</value>
@@ -135,11 +138,17 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="New Message" xml:space="preserve">
+    <value>Neue Nachricht</value>
+  </data>
   <data name="Post" xml:space="preserve">
     <value>Absenden</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrieren</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Benutzername</value>

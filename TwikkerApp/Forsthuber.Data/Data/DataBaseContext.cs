@@ -13,6 +13,8 @@ namespace Forsthuber.Data.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
 
+        public DbSet<LikeComment> LikeComments { get; set; }
+
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
