@@ -160,6 +160,7 @@ namespace Forsthuber.Data.Repositories
                         .ThenInclude(c => c.User)
                     .Include(x=>x.Comments)
                         .ThenInclude(c => c.Likes)
+                        .ThenInclude(l => l.ApplicationUser)
                     .Include(x => x.Likes)
                         .ThenInclude(l => l.User)
                     .ToList();

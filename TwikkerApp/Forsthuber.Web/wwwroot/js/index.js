@@ -113,7 +113,8 @@ function likeComment(commentID, i, j) {
         data: model,
         dataType: "json",
         success: function (response) {
-            text.value = '';
+            var p = document.getElementById("likeCommentCount" + i + "t" + j);
+            p.innerText = response;
         },
         error: function (response) {
             alert("error");
