@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+
+@model AddCommentPartialViewModel
+@{
+    Layout = null;
+    List<Comment> comments = new List<Comment>();
+}
+
+comments = messages[i].Comments.OrderBy(x => x.TimeStamp).ToList();
+<p>@Localizer["Comments"]: @comments.Count</p>
+
+
+
+@for (int j = 0; j < comments.Count; j++)
+{
+
+    <p>@Localizer["Username"]: @comments[j].User</p>
+    <p>@Localizer["Text"]: @comments[j].Text</p>
+    @if (@Model.Message.Comments[j].Likes.Count > 0)
+    {
+        <p id="@("likeCommentCount" + @Model.Index + "t" + j)">@Localizer["Likes"]: @Model.Message.Comments[j].Likes.Count</p>
+    }
+
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        if (comments[j].User.UserName == @Model.User.UserName)
+        {
+            <button class="btn-default" onclick="deleteComment(@Model.Message.MessageID, @Model.Message.Comments[j].CommentID)">@Localizer["Delete"]</button>
+        }
+        @if (Model.message.Comments[j].Likes.FindAll(x => x.UserID == @Model.User.Id).Count == 0)
+        {
+            <button class="btn-success" onclick="likeComment(@Model.Message.Comments[j].CommentID, @Model.Index,@j)">@Localizer["Like"]</button>
+        }
+    }
+    <p>-----</p>
+}

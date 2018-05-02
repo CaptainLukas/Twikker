@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Forsthuber.Web.Models.ManageViewModels
 {
-    public class AddMessageViewModel
+    public class MessagePartialViewModel
     {
-        public string Text { get; set; }
+        public ApplicationUser User { get; set; }
+        public List<Message> Messages { get; set; }
     }
 }

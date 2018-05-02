@@ -28,11 +28,15 @@ namespace Forsthuber.Data.Data
 
             ApplicationUser app = new ApplicationUser();
             app.Email = "test@test.com";
-            app.UserName = "Penisuser";
+            app.UserName = "Testuser";
 
-            repository.AddUser("Lukas@lukas.at", "123", "Penis123");
-            repository.AddUser("Test@test.at", "Test", "Penis123");
-            repository.AddUser("test@test.com", "Penisuser", "Penis123");
+            Message message = new Message();
+            message.User = app;
+            message.UserID = 3.ToString();
+
+            repository.AddUser("Lukas@lukas.at", "123", "Passwort123");
+            repository.AddUser("Test@test.at", "Test", "Passwort123");
+            repository.AddUser("test@test.com", "Testuser", "Passwort123");
 
             repository.AddMessage("Wuff Wuff", new ApplicationUser());
             repository.AddMessage("Test Test", app);
@@ -43,7 +47,7 @@ namespace Forsthuber.Data.Data
             app.Email = "email@email.at";
             repository.AddMessage("test test", app);
 
-            //repository.AddComment("Penisuser", app, 1);
+            repository.AddComment("Testuser", app, message);
             //repository.AddComment("Hallo test", 2, 3);
             //repository.AddComment("Hallo", 1, 3);
 

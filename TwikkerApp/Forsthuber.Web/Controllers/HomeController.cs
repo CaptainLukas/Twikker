@@ -79,10 +79,38 @@ namespace Forsthuber.Web.Controllers
             }
 
             repository.AddMessage(model.Text, repository.GetUserByUserName(this.User.Identity.Name));
+            return Json("");
+        }
 
-            var messageViewModel = new AddMessageViewModel();
-            messageViewModel.Text = model.Text;
-            return PartialView("~/Views/Shared/AddMessageViewModel.cshtml", messageViewModel);
+        [HttpPost()]
+        public IActionResult AddMessagePartial(AddMessagePartialViewModel model)
+        {
+            var partialModel = new MessagePartialViewModel();
+            partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
+            repository.AddMessage(model.MessageText, repository.GetUserByUserName(this.User.Identity.Name));
+            partialModel.Messages = repository.GetAllMessages();
+            return PartialView("AddMessagePartial", partialModel);
+        }
+
+        [HttpPost()]
+        public IActionResult LoadMessagesPartial(AddMessagePartialViewModel model)
+        {
+            var partialModel = new MessagePartialViewModel();
+            partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
+            partialModel.Messages = repository.GetAllMessages();
+            return PartialView("AddMessagePartial", partialModel);
+        }
+
+        [HttpPost()]
+        public IActionResult AddCommentPartial(AddCommentPartialViewModel model)
+        {
+            var partialModel = new AddCommentPartialViewModel();
+            partialModel.Message = repository.GetMessageById(model.MessageID);
+            partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
+            partialModel.Index = model.Index;
+
+            repository.AddComment(model.Text, repository.GetUserByUserName(this.User.Identity.Name), partialModel.Message);
+            return PartialView("AddCommentPartial", partialModel);
         }
 
         [HttpPost()]

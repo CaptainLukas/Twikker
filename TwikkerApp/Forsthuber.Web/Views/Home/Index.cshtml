@@ -43,75 +43,20 @@
 
             </div>
 
-            <div id="addNewMessage"></div>
-            <button class="btn-success" onclick="addMessage('Hallo test')">Test</button>
-
             <div class="content">
                 @if (this.User.Identity.IsAuthenticated)
                 {
                     <p>@Localizer["New Message"]:</p>
-                    <textarea maxlength="300" name="newMessageText" id="newMessageText" onkeyup="countMessageChar(this, 'newMessageCount')"></textarea>
+                    <textarea maxlength="300" name="newMessagePartialText" id="newMessagePartialText" onkeyup="countMessageChar(this, 'newMessageCount')"></textarea>
                     <p>@Localizer["Message Length"]: <p id="newMessageCount">0</p></p>
-                    <button class="btn-success" onclick="newMessage('newMessageText')">@Localizer["Post"]</button>
+                    <button class="btn-success" onclick="addMessagePartial('newMessagePartialText')">@Localizer["Post"]</button>
                 }
                 <p>----------------------------------------------------</p>
-                @for (int i = 0; i < messages.Count; i++)
-                {
-                    <p>@Localizer["Username"]: @messages[i].User</p>
-                    <p>@Localizer["Text"]: @messages[i].Text</p>
-                    @if (@messages[i].Likes.Count > 0)
-                    {
-                        <p id="@("likeCount" + i) ">@Localizer["Likes"]: @messages[i].Likes.Count</p>
-                    }
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        @if (@messages[i].User.UserName == user.UserName)
-                        {
-                            <button class="btn-default" onclick="deleteMessage(@messages[i].MessageID)">@Localizer["Delete"]</button>
-                        }
-                        @if (messages[i].Likes.FindAll(x => x.UserID == user.Id).Count == 0)
-                        {
-                            <button class="btn-success" onclick="like(@messages[i].MessageID, @i)">@Localizer["Like"]</button>
-                        }
-
-                    }
-                    comments = messages[i].Comments.OrderBy(x => x.TimeStamp).ToList();
-                    <p>@Localizer["Comments"]: @comments.Count</p>
-
-
-
-                    @for (int j = 0; j < comments.Count; j++)
-                    {
-
-                        <p>@Localizer["Username"]: @comments[j].User</p>
-                        <p>@Localizer["Text"]: @comments[j].Text</p>
-                        @if (@messages[i].Comments[j].Likes.Count > 0)
-                        {
-                            <p id="@("likeCommentCount" + i + "t" + j)">@Localizer["Likes"]: @messages[i].Comments[j].Likes.Count</p>
-                        }
-
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            if (comments[j].User.UserName == user.UserName)
-                            {
-                                <button class="btn-default" onclick="deleteComment(@messages[i].MessageID, @messages[i].Comments[j].CommentID)">@Localizer["Delete"]</button>
-                            }
-                            @if (messages[i].Comments[j].Likes.FindAll(x => x.UserID == user.Id).Count == 0)
-                            {
-                                <button class="btn-success" onclick="likeComment(@messages[i].Comments[j].CommentID, @i,@j)">@Localizer["Like"]</button>
-                            }
-                        }
-                        <p>-----</p>
-                    }
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <textarea maxlength="300" name="newCommentText" id="@("newCommentText" + i)" onkeyup="countCommentChar(this, @i)"></textarea>
-                        <p>@Localizer["Message Length"]: <p id="@("newCommentCount" + i)">0</p></p>
-                        <button class="btn-default" onclick="newComment(@messages[i].MessageID, @i)">@Localizer["Comment"]</button>
-                    }
-                    <p>----------------------------------------------------</p>
-                }
             </div>
+
+            <div id="addNewMessage">
+            </div>
+
             <div class="bottomline">
                 <button class="btn-success" onclick="loadMore()">@Localizer["Load More"]</button>
             </div>

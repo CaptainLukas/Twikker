@@ -29,6 +29,16 @@ function DeleteMessageViewModel(messageID) {
     this.MessageID = messageID;
 }
 
+function AddMessagePartialViewModel(mtext) {
+    this.MessageText = mtext;
+}
+
+function AddCommentPartialViewModel(text, messageID, index) {
+    this.Text = text;
+    this.MessageID = messageID;
+    this.Index = index;
+}
+
 // Activates knockout.js 
 ko.applyBindings(new UserViewModel("Luke Forstwalker"));
 
@@ -41,7 +51,7 @@ function deleteMessage(messageID) {
             data: model,
             dataType: "json",
             success: function (response) {
-
+                loadMessages();
                 alert("success");
             },
             error: function (response) {
@@ -59,7 +69,7 @@ function deleteComment(messageID, commentID) {
         data: model,
         dataType: "json",
         success: function (response) {
-
+            loadMessages();
             alert("success");
         },
         error: function (response) {
@@ -139,10 +149,6 @@ function like(id, i) {
     });
 }
 
-function unlike() {
-    alert("noch nix aber vl unlike");
-}
-
 function newMessage(id) {
 
     var tb = document.getElementById(id);
@@ -155,6 +161,7 @@ function newMessage(id) {
         dataType: "json",
         success: function (response) {
             tb.value = '';
+            loadMessages();
         },
         error: function (response) {
             alert("error");
@@ -174,22 +181,61 @@ function countCommentChar(val, i) {
     p.innerHTML = length;
 }
 
-function addMessage(text) {
-    var model = new AddMessageViewModel(text);
+function addMessagePartial(id) {
+    var tb = document.getElementById(id);
+    var model = new AddMessagePartialViewModel(tb.value);
     $.ajax({
-        type:"Post",
-        url: 'Home/AddMessage',
+        type: "Post",
+        url: 'Home/AddMessagePartial',
         data: model,
-        dataType: "json",
-        success: function (partialView) {
-            alert("Hallo");
-            var d = document.getElementById("addNewMessages");
-            d.appendChild(partialView);
+        contentType: "application/html",
+        success: function (response) {
+            alert("MessageAdded");
+            var d = document.getElementById("addNewMessage");
+            d.innerHTML = response;
+        },
+        error: function (response) {
+        }
+    });
+}
+
+function loadMessages() {
+    var model = new AddMessagePartialViewModel("");
+    $.ajax({
+        type: "Post",
+        url: 'Home/LoadMessagesPartial',
+        data: model,
+        contentType: "application/html",
+        success: function (response) {
+            var d = document.getElementById("addNewMessage");
+            d.innerHTML = response;
+        },
+        error: function (response) {
+            alert("error" +response.statusText);
+        }
+    });
+}
+
+function addCommentPartial(messageID, i) {
+    var text = document.getElementById("newCommentText" + i);
+    var model = new AddCommentPartialViewModel(text,messageID, i);
+    $.ajax({
+        type: "Post",
+        url: "Home/AddCommentPartial",
+        data: model,
+        contentType: "application/html",
+        success: function (response) {
+            alert("Commentadded");
+            var d = document.getElementById("addCommentsPartial");
+            d.innerHTML = response;
+        },
+        error: function (response) {
+            alert("error");
         }
     });
 }
 
 // Check whether the page has loaded and is ready.
 $(document).ready(function () {
-
+    loadMessages()
 })
