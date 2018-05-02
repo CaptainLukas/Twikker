@@ -10,5 +10,7 @@ namespace Forsthuber.Web.Models.ManageViewModels
     {
         public ApplicationUser User { get; set; }
         public List<Message> Messages { get; set; }
+
+        public int ShownMessages { get; set; }
     }
 }

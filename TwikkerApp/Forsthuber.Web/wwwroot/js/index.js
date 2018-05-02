@@ -78,19 +78,16 @@ function deleteComment(messageID, commentID) {
     });
 }
 
-// This method loads the next "n" messages via AJAX.
 function loadMore() {
-    // to do ajax call to controller to retrieve more messages
-
-    var model = new UserViewModel("Hallo");
+    
     $.ajax({
-        type: "POST",
-        url: "Home/LoadMore",
+        type: "Post",
+        url: 'Home/LoadMore',
         data: model,
-        dataType: "json",
+        contentType: "application/html",
         success: function (response) {
-
-            alert("success");
+            var d = document.getElementById("addNewMessage");
+            d.innerHTML = response;
         },
         error: function (response) {
             alert("error");

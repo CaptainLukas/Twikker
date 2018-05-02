@@ -20,11 +20,13 @@ namespace Forsthuber.Web.Controllers
         private readonly IRepository repository;
         private ApplicationUser currentUser;
         readonly ILogger<HomeController> _log;
+        private int shownMessages;
 
         public HomeController(UserManager<ApplicationUser> userManager, IRepository repository)
         {
             _userManager = userManager;
             this.repository = repository;
+            shownMessages = 3;
         }
 
         public async Task<IActionResult> Index()
@@ -49,9 +51,24 @@ namespace Forsthuber.Web.Controllers
         }
 
         [HttpPost()]
-        public IActionResult LoadMore(UserViewModel model)
+        public IActionResult LoadMore()
         {
-            return Json(model);
+            
+            var partialModel = new MessagePartialViewModel();
+            partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
+            partialModel.Messages = repository.GetAllMessages();
+
+            if (shownMessages > partialModel.Messages.Count - 3)
+            {
+                this.shownMessages = partialModel.Messages.Count;
+            }
+            else
+            {
+                this.shownMessages += 3;
+            }
+            
+            partialModel.ShownMessages = this.shownMessages;
+            return PartialView("AddMessagePartial", partialModel);
         }
 
         [HttpPost()]
@@ -89,6 +106,7 @@ namespace Forsthuber.Web.Controllers
             partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
             repository.AddMessage(model.MessageText, repository.GetUserByUserName(this.User.Identity.Name));
             partialModel.Messages = repository.GetAllMessages();
+            partialModel.ShownMessages = this.shownMessages;
             return PartialView("AddMessagePartial", partialModel);
         }
 
@@ -98,6 +116,7 @@ namespace Forsthuber.Web.Controllers
             var partialModel = new MessagePartialViewModel();
             partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
             partialModel.Messages = repository.GetAllMessages();
+            partialModel.ShownMessages = this.shownMessages;
             return PartialView("AddMessagePartial", partialModel);
         }
 
