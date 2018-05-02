@@ -48,19 +48,6 @@ namespace Forsthuber.Data.Data
             repository.AddMessage("test test", app);
 
             repository.AddComment("Testuser", app, message);
-            //repository.AddComment("Hallo test", 2, 3);
-            //repository.AddComment("Hallo", 1, 3);
-
-            //repository.AddLike(1, 1);
-            //repository.AddLike(1, 2);
-            //repository.AddLike(1, 3);
-            //repository.AddLike(1, 4);
-            
-            //repository.AddLike(2, 3);
-            //repository.AddLike(2, 4);
-
-            //repository.AddLike(3, 1);
-            //repository.AddLike(3, 3);
         }
     }
 }

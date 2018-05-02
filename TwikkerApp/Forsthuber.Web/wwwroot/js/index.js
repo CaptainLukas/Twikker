@@ -29,8 +29,8 @@ function DeleteMessageViewModel(messageID) {
     this.MessageID = messageID;
 }
 
-function AddMessagePartialViewModel(mtext) {
-    this.MessageText = mtext;
+function AddMessagePartialViewModel(messageText) {
+    this.MessageText = messageText;
 }
 
 function AddCommentPartialViewModel(text, messageID, index) {
@@ -83,7 +83,6 @@ function loadMore() {
     $.ajax({
         type: "Post",
         url: 'Home/LoadMore',
-        data: model,
         contentType: "application/html",
         success: function (response) {
             var d = document.getElementById("addNewMessage");
@@ -104,6 +103,7 @@ function newComment(messageID, i) {
         data: model,
         dataType: "json",
         success: function (response) {
+            loadMessages();
             text.value = '';
         },
         error: function (response) {
@@ -180,28 +180,27 @@ function countCommentChar(val, i) {
 
 function addMessagePartial(id) {
     var tb = document.getElementById(id);
+    alert(tb.value);
     var model = new AddMessagePartialViewModel(tb.value);
     $.ajax({
         type: "Post",
         url: 'Home/AddMessagePartials',
         data: model,
-        contentType: "application/html",
+        dataType:"json",
         success: function (response) {
-            alert("MessageAdded");
-            var d = document.getElementById("addNewMessage");
-            d.innerHTML = response;
+            alert("success");
+            loadMessages();
         },
         error: function (response) {
+            alert("TestError");
         }
     });
 }
 
 function loadMessages() {
-    var model = new AddMessagePartialViewModel("");
     $.ajax({
         type: "Post",
         url: 'Home/LoadMessagesPartial',
-        data: model,
         contentType: "application/html",
         success: function (response) {
             var d = document.getElementById("addNewMessage");

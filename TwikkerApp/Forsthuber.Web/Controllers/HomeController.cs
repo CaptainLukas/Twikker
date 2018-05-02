@@ -107,11 +107,11 @@ namespace Forsthuber.Web.Controllers
             repository.AddMessage(model.MessageText, repository.GetUserByUserName(this.User.Identity.Name));
             partialModel.Messages = repository.GetAllMessages();
             partialModel.ShownMessages = this.shownMessages;
-            return PartialView("AddMessagePartial", partialModel);
+            return Json("");
         }
 
         [HttpPost()]
-        public IActionResult LoadMessagesPartial(AddMessagePartialViewModel model)
+        public IActionResult LoadMessagesPartial()
         {
             var partialModel = new MessagePartialViewModel();
             partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
