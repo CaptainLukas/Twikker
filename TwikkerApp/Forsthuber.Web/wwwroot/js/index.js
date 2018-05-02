@@ -183,7 +183,7 @@ function addMessagePartial(id) {
     var model = new AddMessagePartialViewModel(tb.value);
     $.ajax({
         type: "Post",
-        url: 'Home/AddMessagePartial',
+        url: 'Home/AddMessagePartials',
         data: model,
         contentType: "application/html",
         success: function (response) {

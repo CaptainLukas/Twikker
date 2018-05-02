@@ -100,7 +100,7 @@ namespace Forsthuber.Web.Controllers
         }
 
         [HttpPost()]
-        public IActionResult AddMessagePartial(AddMessagePartialViewModel model)
+        public IActionResult AddMessagePartials(AddMessagePartialViewModel model)
         {
             var partialModel = new MessagePartialViewModel();
             partialModel.User = repository.GetUserByUserName(this.User.Identity.Name);
