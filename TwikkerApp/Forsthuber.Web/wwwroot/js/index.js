@@ -39,8 +39,6 @@ function AddCommentPartialViewModel(text, messageID, index) {
     this.Index = index;
 }
 
-// Activates knockout.js 
-ko.applyBindings(new UserViewModel("Luke Forstwalker"));
 
 function deleteMessage(messageID) {
     if (confirm('Are you sure you want to delete this?')) {
@@ -188,7 +186,7 @@ function addMessagePartial(id) {
         data: model,
         dataType:"json",
         success: function (response) {
-            alert("success");
+            tb.value = '';
             loadMessages();
         },
         error: function (response) {
@@ -207,7 +205,6 @@ function loadMessages() {
             d.innerHTML = response;
         },
         error: function (response) {
-            alert("error" +response.statusText);
         }
     });
 }
